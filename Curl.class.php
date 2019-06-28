@@ -34,7 +34,14 @@ class Curl {
     public function getPostValues() {
         return $this->postValues;
     }
-
+    
+    /**
+     * setPostValues
+     *
+     * @param  mixed $postValues
+     *
+     * @return void
+     */
     public function setPostValues($postValues) {
         $this->postValues = $postValues;
         return $this;
