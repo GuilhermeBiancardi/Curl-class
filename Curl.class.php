@@ -92,7 +92,7 @@ class Curl {
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_MAXREDIRS, 3);
-        
+
         $postData = $this->postData();
         
         if ($postData) {
