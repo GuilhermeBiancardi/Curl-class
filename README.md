@@ -12,6 +12,12 @@
     $curl = new Curl();
 ```
 
+### IP Randômico
+
+```php
+    $curl->setRandIP();
+```
+
 ### Requisição Simples ou GET
 
 ```php
