@@ -4,6 +4,7 @@ class Curl {
 
     private $url;
     private $postValues;
+    private $randIP = false;
 
     /**
      * getUrl
@@ -46,6 +47,15 @@ class Curl {
         $this->postValues = $postValues;
         return $this;
     }
+    
+    /**
+     * setRandIP
+     *
+     * @return void
+     */
+    public function setRandIP() {
+        $this->randIP = true;
+    }
 
     /**
      * postData
@@ -72,15 +82,22 @@ class Curl {
      */
     public function getContent() {
         $ch = curl_init();
+        
+        // Habilita o envio de CURL local
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        
         curl_setopt($ch, CURLOPT_URL, $this->getUrl());
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_MAXREDIRS, 3);
         $postData = $this->postData();
+        
         if ($postData) {
             curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         }
+        
         $responseHtml = curl_exec($ch);
         curl_close($ch);
         return $responseHtml;
