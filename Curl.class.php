@@ -3,10 +3,11 @@
 class Curl {
 
     private $url;
+    private $IP = "";
     private $postValues;
     private $randIP = false;
-    private $IP = "";
     private $headers = Array();
+    private $auxHeaders = Array();
 
     /**
      * getUrl
@@ -98,6 +99,19 @@ class Curl {
     }
 
     /**
+     * empyHeaders function
+     *
+     * @return void
+     */
+    private function empyHeaders() {
+        $this->headers = Array();
+    }
+
+    public function setHeaders($headers) {
+        $this->auxHeaders = $headers;
+    }
+
+    /**
      * getContent
      *
      * @return void
@@ -115,17 +129,25 @@ class Curl {
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_MAXREDIRS, 3);
 
+        $this->empyHeaders();
+
+        if($this->auxHeaders) {
+            foreach($this->auxHeaders as $value) {
+                $this->headers[] = $value;
+            }
+        }
+
         // Seto o IP requisitante como random
         if($this->randIP) {
             $this->randIP();
         }
 
         if($this->randIP || $this->IP) {
-            curl_setopt($ch, CURLOPT_HTTPHEADER, Array(
-                'X-Forwarded-For: ' . $this->IP
-            ));
+            $this->headers[] = 'X-Forwarded-For: ' . $this->IP;
         }
-
+        
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $this->headers);
+        
         $postData = $this->postData();
         if ($postData) {
             curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);

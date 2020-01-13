@@ -12,12 +12,23 @@
     $curl = new Curl();
 ```
 
-### IP Randômico ou FIXO
+### IP Randômico ou Fixo
 
 ```php
     $curl->setIP("RAND");
     // IP FIXO
     $curl->setIP("0.0.0.0");
+```
+
+### Adicionar Headers
+
+```php
+    $curl->setHeaders(Array(
+        "HeaderKey: HeaderValue",
+        "HeaderKey: HeaderValue",
+        "HeaderKey: HeaderValue",
+        "HeaderKey: HeaderValue"
+    ));
 ```
 
 ### Requisição Simples ou GET
