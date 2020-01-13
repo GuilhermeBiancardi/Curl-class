@@ -12,11 +12,11 @@
     $curl = new Curl();
 ```
 
-### IP Randômico
+### IP Randômico ou FIXO
 
 ```php
     $curl->setIP("RAND");
-    // Ou Setar um IP
+    // IP FIXO
     $curl->setIP("0.0.0.0");
 ```
 
