@@ -15,7 +15,9 @@
 ### IP Randômico
 
 ```php
-    $curl->setRandIP();
+    $curl->setIP("RAND");
+    // Ou Setar um IP
+    $curl->setIP("0.0.0.0");
 ```
 
 ### Requisição Simples ou GET

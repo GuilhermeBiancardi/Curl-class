@@ -5,6 +5,8 @@ class Curl {
     private $url;
     private $postValues;
     private $randIP = false;
+    private $IP = "";
+    private $headers = Array();
 
     /**
      * getUrl
@@ -50,11 +52,31 @@ class Curl {
     
     /**
      * setRandIP
+     * 
+     * "RAND" = Random ou "0.0.0.0" = IP Request 
      *
      * @return void
      */
-    public function setRandIP() {
-        $this->randIP = true;
+    public function setIP($IP = "RAND") {
+        if($IP) {
+            if($IP == "RAND") {
+                $this->randIP = true;
+            } else {
+                $this->randIP = false;
+                $this->IP = $IP;
+            }
+        } else {
+            $this->IP = "";
+        }
+    }
+
+    /**
+     * set randIP
+     *
+     * @return void
+     */
+    private function randIP() {
+        $this->IP = mt_rand(0,255) . "." . mt_rand(0,255) . "." . mt_rand(0,255) . "." . mt_rand(0,255);
     }
 
     /**
@@ -93,8 +115,18 @@ class Curl {
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_MAXREDIRS, 3);
 
+        // Seto o IP requisitante como random
+        if($this->randIP) {
+            $this->randIP();
+        }
+
+        if($this->randIP || $this->IP) {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, Array(
+                'X-Forwarded-For: ' . $this->IP
+            ));
+        }
+
         $postData = $this->postData();
-        
         if ($postData) {
             curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         }
