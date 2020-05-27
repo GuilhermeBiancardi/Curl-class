@@ -8,6 +8,7 @@ class Curl {
     private $randIP = false;
     private $headers = Array();
     private $auxHeaders = Array();
+    private $userAgent = "";
 
     /**
      * getUrl
@@ -81,6 +82,15 @@ class Curl {
     }
 
     /**
+     * set setUserAgent
+     *
+     * @return void
+     */
+    public function setUserAgent($agent) {
+        $this->userAgent = $agent;
+    }
+
+    /**
      * postData
      *
      * @return void
@@ -151,6 +161,10 @@ class Curl {
         $postData = $this->postData();
         if ($postData) {
             curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+        }
+
+        if($this->userAgent != "") {
+            curl_setopt($ch,CURLOPT_USERAGENT, $this->userAgent);
         }
         
         $responseHtml = curl_exec($ch);
